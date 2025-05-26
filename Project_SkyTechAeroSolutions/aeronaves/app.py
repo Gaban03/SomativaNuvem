@@ -15,19 +15,34 @@ db_config = {
 def index():
     return render_template('index.html')
 
-@app.route('/cadastrar', methods=['POST'])
-def cadastrar():
+@app.route('/cadastrar_aeronave', methods=['POST'])
+def cadastrar_aeronave():
     data = request.json
-    cpf = data['cpf']
-    plano_saude = data['id_plano_saude']
-    nome = data['nome']
+    id_aeronave = data('id_aeronave')
+    modelo = data('modelo')
+    fabricante = data ('fabricante')
+    horas_voo = data('horas_voo')
+
+    if not id_aeronave:
+        return jsonify ({"message": "ID Aeronave obrigátorio"}),400
+    
+    if not modelo:
+        return jsonify ({"message": "Modelo de Aeronave necessário para cadastro"}),400
+
+    if not fabricante:
+        return jsonify ({"message": "Necessario o fabricante para cadastro"}),400
+    
+    if not horas_voo:
+        return jsonify ({"message": "Necessario as horas de voo "}),400
+
+
 
     try:
 
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
 
-        cursor.execute("INSERT INTO paciente (cpf, id_plano_saude, nome) VALUES (%s, %s, %s)", (cpf, plano_saude, nome))
+        cursor.execute("INSERT INTO aeronaves (id_aeronave, modelo, fabricante, horas_voo) VALUES (%s, %s, %s)", (id_aeronave, modelo, fabricante, horas_voo))
         conn.commit()
 
         cursor.close()
@@ -38,13 +53,13 @@ def cadastrar():
         return jsonify({"message" : str(e)}), 500
     
 
-@app.route('/listar', methods=['GET'])
-def listar():
+@app.route('/listar_aeronaves', methods=['GET'])
+def listar_aeronaves():
     try:
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
 
-        cursor.execute("SELECT p.cpf, p.nome, ps.nome FROM paciente p LEFT JOIN plano_saude ps ON p.id_plano_saude = ps.id_plano_saude")
+        cursor.execute("SELECT * FROM aeronaves")
         dados = cursor.fetchall()
 
         cursor.close()

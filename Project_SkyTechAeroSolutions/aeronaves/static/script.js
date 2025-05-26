@@ -1,62 +1,48 @@
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('cadastroForm');
-    const tabelaBody = document.querySelector('#tablePacients tbody');
-    const selectPlano = document.getElementById('id_plano_saude');
-
-    // Buscar planos e popular select
-    function carregarPlanos() {
-        fetch('http://localhost:5005/planos')
-            .then(response => response.json())
-            .then(planos => {
-                planos.forEach(plano => {
-                    const option = document.createElement('option');
-                    option.value = plano.id;
-                    option.textContent = plano.nome;
-                    selectPlano.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Erro ao carregar planos:', error));
-    }
+    const tabelaBody = document.getElementById('tabelaAeronaves');
 
     function atualizarTabela() {
-        fetch('/listar')
+        fetch('/listar_aeronaves')
             .then(response => response.json())
-            .then(pacientes => {
+            .then(aeronaves => {
                 tabelaBody.innerHTML = '';
 
-                pacientes.forEach(paciente => {
+                aeronaves.forEach(aeronave => {
                     const row = tabelaBody.insertRow();
-                    row.insertCell(0).textContent = paciente[0];
-                    row.insertCell(1).textContent = paciente[1];
-                    row.insertCell(2).textContent = paciente[2];
+                    row.insertCell(0).textContent = aeronave[0]; // ID (auto_increment)
+                    row.insertCell(1).textContent = aeronave[1]; // Modelo
+                    row.insertCell(2).textContent = aeronave[2]; // Fabricante
+                    row.insertCell(3).textContent = aeronave[3]; // Horas de voo
                 });
             })
-            .catch(error => console.error('Erro ao carregar pacientes:', error));
+            .catch(error => console.error('Erro ao carregar aeronaves:', error));
     }
-
-    carregarPlanos();
-    atualizarTabela();
 
     form.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        const formData = new FormData(form);
+        const modelo = document.getElementById('modelo').value;
+        const fabricante = document.getElementById('fabricante').value;
+        const horas_voo = document.getElementById('horas_voo').value;
 
-        fetch('/cadastrar', {
+        fetch('/cadastrar_aeronave', {
             method: 'POST',
-            body: JSON.stringify(Object.fromEntries(formData)),
             headers: {
                 'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ modelo, fabricante, horas_voo })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            if (data.message === "Cadastro realizado com sucesso") {
+                form.reset();
+                atualizarTabela();
             }
         })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                if (data.message === "Cadastro realizado com sucesso!") {
-                    form.reset();
-                    atualizarTabela();
-                }
-            })
-            .catch(error => console.error('Erro:', error));
+        .catch(error => console.error('Erro ao cadastrar:', error));
     });
+
+    atualizarTabela(); // carrega os dados ao iniciar
 });
