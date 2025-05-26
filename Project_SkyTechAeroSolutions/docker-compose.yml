@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-
   aeronaves:
     build: ./aeronaves
     ports:
@@ -12,7 +11,7 @@ services:
       - db
       
   manutencao:
-    build: ./anat_mock
+    build: ./manutencao
     ports:
       - "5002:5000"
     networks:
@@ -21,7 +20,7 @@ services:
       - db
 
   pecas:
-    build: ./certificacao
+    build: ./pecas
     ports:
       - "5003:5000"
     networks:
@@ -29,8 +28,8 @@ services:
     depends_on:
       - db
   
-  anat:
-    build: ./manutencao
+  anat_mock:
+    build: ./anat_mock
     ports:
       - "5004:5000"
     networks:
@@ -38,15 +37,15 @@ services:
     depends_on:
       - db
 
-  faturamento:
-    build: ./pecas
+  mecanico:
+    build: ./mecanico
     ports:
       - "5005:5000"
     networks:
       - sis01
     depends_on:
       - db
-  
+    
   db:
     image: mysql:5.7
     environment:

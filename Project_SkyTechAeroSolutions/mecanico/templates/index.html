@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Mecanicos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Cadastro de Mecanico</h1>
+        <form id="cadastroForm">
+            <label for="nomeMecanico">Nome: </label>
+            <input type="text" id="nomeMecanico" name="nome" required>
+
+            <br><br>
+
+            <label for="cpfMecanico">CPF: </label>
+            <input type="text" id="cpfMecanico" name="cpf" required>          
+
+            <button type="submit">Cadastrar</button>
+        </form>
+
+        <h2>Tabela de Mecanicos</h2>
+        <table id="tableMecanicos">
+            <tr>
+                <thead>
+                    <th>ID Mecanico</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </tr>
+        </table>        
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js')}}"></script>
+</body>
+</html>
+
