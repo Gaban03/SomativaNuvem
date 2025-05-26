@@ -37,8 +37,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 alert(data.message);
                 if (data.message === "Cadastro realizado com sucesso!") {
                     form.reset();
-                    atualizarTabela();
                 }
+                atualizarTabela();
             })
             .catch(error => console.error('Erro:', error));
     });

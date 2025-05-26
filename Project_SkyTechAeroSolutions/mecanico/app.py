@@ -24,7 +24,8 @@ def mecanico():
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor(dictionary=True)
 
-        cursor.execute(""" INSERT INTO mecanico (nome, cpf) VALUES (%s, %s) """, (nome, cpf))
+        cursor.execute(""" INSERT INTO mecanico (nome, cpf) VALUES (%s, %s) """,(nome, cpf))
+        conn.commit()
 
         cursor.close()
         conn.close()
@@ -39,7 +40,7 @@ def listar():
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
 
-        cursor.execute("SELECT id_mecanico, nome, cpf, FROM mecanico")
+        cursor.execute("SELECT id_mecanico, nome, cpf FROM mecanico")
         dados_mecanico = cursor.fetchall()
 
         cursor.close()
