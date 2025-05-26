@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Pacientes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Cadastro de Pacientes</h1>
+        <form id="cadastroForm">
+            <label for="cpf">CPF:</label>
+            <input type="text" id="cpf" name="cpf" required>
+
+            <label for="id_plano_saude">Plano Saúde:</label>
+            <select id="id_plano_saude" name="id_plano_saude" required>
+                <option value="">Selecione um plano</option>
+            </select>
+            
+
+            <label for="nome">Nome: </label>
+            <input type="text" id="nome" name="nome" required>
+
+            <button type="submit">Cadastrar</button>
+        </form>
+
+        <h2>Tabela de Paciente</h2>
+        <table id="tablePacients">
+            <tr>
+                <thead>
+                    <th>CPF</th>
+                    <th>Nome</th>
+                    <th>Plano de Saúde</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </tr>
+        </table>        
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js')}}"></script>
+</body>
+</html>
+

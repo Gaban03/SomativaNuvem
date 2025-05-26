@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+
+  aeronaves:
+    build: ./aeronaves
+    ports:
+      - "5001:5000"
+    networks:
+      - sis01
+    depends_on:
+      - db
+      
+  manutencao:
+    build: ./anat_mock
+    ports:
+      - "5002:5000"
+    networks:
+      - sis01
+    depends_on:
+      - db
+
+  pecas:
+    build: ./certificacao
+    ports:
+      - "5003:5000"
+    networks:
+      - sis01
+    depends_on:
+      - db
+  
+  anat:
+    build: ./manutencao
+    ports:
+      - "5004:5000"
+    networks:
+      - sis01
+    depends_on:
+      - db
+
+  faturamento:
+    build: ./pecas
+    ports:
+      - "5005:5000"
+    networks:
+      - sis01
+    depends_on:
+      - db
+  
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: aero_solutions
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3309:3306"
+    networks:
+      - sis01
+  
+volumes:
+  db_data:
+
+networks:
+  sis01:
+    driver: bridge
