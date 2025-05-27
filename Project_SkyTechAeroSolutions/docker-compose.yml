@@ -45,6 +45,15 @@ services:
       - sis01
     depends_on:
       - db
+  
+  certificacao:
+    build: ./certificacao
+    ports:
+      - "5006:5000"
+    networks:
+      - sis01
+    depends_on:
+      - db
     
   db:
     image: mysql:5.7

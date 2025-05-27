@@ -2,20 +2,20 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Seleciona o formulario
     const form = document.getElementById('cadastroForm');
-    const tabelaBody = document.querySelector('#tableConsults tbody');
+    const tabelaBody = document.querySelector('#tableCertificacoes tbody');
 
     function atualizarTabela() {
         fetch('/listar')
         .then(response => response.json())
-        .then(prontuarios => {
+        .then(certificacao => {
          // Limpa a tabela
         tabelaBody.innerHTML = '';
         
-        prontuarios.forEach(prontuario => {
+        certificacao.forEach(certificacao => {
         const row = tabelaBody.insertRow();
-        row.insertCell(0).textContent = prontuario[0];
-        row.insertCell(1).textContent = prontuario[1];
-        row.insertCell(2).textContent = prontuario[2];
+        row.insertCell(0).textContent = certificacao[0];
+        row.insertCell(1).textContent = certificacao[1];
+        row.insertCell(2).textContent = certificacao[2];
          });
         })
         .catch(error => console.error('Erro ao carregar prontuários:', error));
@@ -43,8 +43,8 @@ document.addEventListener('DOMContentLoaded', function () {
             alert(data.message); // Exibe a mensagem de erro ou sucesso
             if (data.message === "Cadastro realizado com sucesso!"){
                 form.reset(); // Limpas os campos do formulario
-                atualizarTabela();
             }
+            atualizarTabela();
             })
             .catch(error => {
                 console.error('Erro:', error);

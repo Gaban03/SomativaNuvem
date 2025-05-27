@@ -8,24 +8,28 @@
 </head>
 <body>
     <div class="container">
-        <h1>Cadastro de Prontuário</h1>
+        <h1>Cadastro de Certificações</h1>
         <form id="cadastroForm">
-            <label for="id_consulta">ID Consulta:</label>
+            <label for="id_mecanico">ID Mecanico:</label>
             <input type="number" id="id_consulta" name="id_consulta" required>
 
-            <label for="descricao">Descrição: </label>
-            <input type="text" id="descricao" name="descricao" required>
+            <label for="apto">Apto: </label>
+            <select name="apto" id="apto">
+                <option>. . .</option>
+                <option value="1">Sim</option>
+                <option value="0">Não</option>
+              </select>
 
             <button type="submit" onclick="RefreshTable()">Cadastrar</button>
         </form>
 
-        <h2>Tabela de Prontuário</h2>
-        <table id="tableConsults">
+        <h2>Certificações</h2>
+        <table id="tableCertificacoes">
             <tr>
                 <thead>
-                    <th>ID</th>
-                    <th>ID Consulta</th>
-                    <th>Descrição</th>
+                    <th>ID Certificação</th>
+                    <th>ID Mecanico</th>
+                    <th>Apto</th>
                 </thead>
                 <tbody>
                 </tbody>

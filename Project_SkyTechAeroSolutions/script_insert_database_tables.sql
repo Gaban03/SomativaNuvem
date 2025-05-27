@@ -10,7 +10,7 @@ CREATE TABLE aeronaves (
 CREATE TABLE mecanico (
     id_mecanico INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR (60),
-    cpf VARCHAR (14)
+    cpf VARCHAR (14),
 );
 
 CREATE TABLE certificacao (
