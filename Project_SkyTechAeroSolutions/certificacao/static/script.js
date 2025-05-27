@@ -13,9 +13,9 @@ document.addEventListener('DOMContentLoaded', function () {
         
         certificacoes.forEach(certificacoes => {
         const row = tabelaBody.insertRow();
-        row.insertCell(0).textContent = certificacoes[0];
-        row.insertCell(1).textContent = certificacoes[1];
-        row.insertCell(2).textContent = certificacoes[2]== 1 ? 'Sim' : 'Não';
+        row.insertCell(0).textContent = certificacoes[0]; // insere no campo de ID certificação
+        row.insertCell(1).textContent = certificacoes[1];// insere no campo de ID mecanico
+        row.insertCell(2).textContent = certificacoes[2]== 1 ? 'Sim' : 'Não'; // insere no campo de apto 
          });
         })
         .catch(error => console.error('Erro ao carregar certificações:', error));
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             alert(data.message); // Exibe a mensagem de erro ou sucesso
             form.reset(); // Limpas os campos do formulario
-            atualizarTabela();
+            atualizarTabela(); // atualiza a tabela para exibir os dados que acabaram de ser inseridos
             })
             .catch(error => {
                 console.error('Erro:', error);

@@ -5,6 +5,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)  # Permite CORS para todas as rotas e origens
 
+# passa as configurações do banco de dados
 db_config = {
     'host': 'db',
     'user': 'root',
@@ -12,10 +13,12 @@ db_config = {
     'database': 'aero_solutions'
 }
 
+# define rota padra do index.html do anat_mock
 @app.route('/')
 def index():
     return render_template('index.html')
 
+# rota para consumir o banco de dados e retornar um json para exibir no front
 @app.route('/anat_mock', methods=['GET'])
 def listar():
     try:

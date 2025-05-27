@@ -3,6 +3,7 @@ import mysql.connector
 
 app = Flask(__name__)
 
+# configurações para conexao do banco de dados
 db_config = {
     'host': 'db',
     'user': 'root',
@@ -10,10 +11,12 @@ db_config = {
     'database': 'aero_solutions'
 }
 
+# rota padrao da pagina de mecanico
 @app.route('/')
 def index():
     return render_template('index.html')
 
+# rota para cadastar um mecanico no banco de dados 
 @app.route('/cadastrar_mecanico', methods=['POST'])
 def mecanico():
     data = request.json
@@ -34,6 +37,7 @@ def mecanico():
     except Exception as e:
         return jsonify({"message": str(e)}), 500
 
+# rota para consumir os dados do banco com um select e transformar em json para exibir no front
 @app.route('/listar_mecanico', methods=['GET'])
 def listar():
     try:

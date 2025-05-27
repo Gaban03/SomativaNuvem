@@ -3,7 +3,7 @@ import mysql.connector
 
 app = Flask(__name__)
 
-
+# define as configurações para conexao com o banco de dados
 db_config = {
     'host': 'db',
     'user': 'root',
@@ -11,10 +11,12 @@ db_config = {
     'database': 'aero_solutions'
 }
 
+# rota padrao da pagina index do certificacao
 @app.route('/')
 def index():
     return render_template('index.html')
 
+# rota para inserir no banco de dados
 @app.route('/cadastrar_certificacoes', methods=['POST'])
 def cadastrar():
     data = request.json
@@ -38,7 +40,7 @@ def cadastrar():
     except Exception as e:
         return jsonify({"message" : str(e)}), 500
     
-
+# rota para consumir o banco de dados com select e retornar json para exibir no front
 @app.route('/listar_certificacoes', methods=['GET'])
 def listar():
     try:
