@@ -18,13 +18,9 @@ def index():
 @app.route('/cadastrar_aeronave', methods=['POST'])
 def cadastrar_aeronave():
     data = request.json
-    id_aeronave = data('id_aeronave')
-    modelo = data('modelo')
-    fabricante = data ('fabricante')
-    horas_voo = data('horas_voo')
-
-    if not id_aeronave:
-        return jsonify ({"message": "ID Aeronave obrigátorio"}),400
+    modelo = data['modelo']
+    fabricante = data ['fabricante']
+    horas_voo = data['horas_voo']
     
     if not modelo:
         return jsonify ({"message": "Modelo de Aeronave necessário para cadastro"}),400
@@ -35,20 +31,18 @@ def cadastrar_aeronave():
     if not horas_voo:
         return jsonify ({"message": "Necessario as horas de voo "}),400
 
-
-
     try:
 
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
 
-        cursor.execute("INSERT INTO aeronaves (id_aeronave, modelo, fabricante, horas_voo) VALUES (%s, %s, %s)", (id_aeronave, modelo, fabricante, horas_voo))
+        cursor.execute("INSERT INTO aeronaves (modelo, fabricante, horas_voo) VALUES (%s, %s, %s)", (modelo, fabricante, horas_voo))
         conn.commit()
 
         cursor.close()
         conn.close()
 
-        return jsonify({"message" : "Cadastro realizado com sucesso"}), 200
+        return jsonify({"message" : "Cadastro realizado com sucesso"}), 201
     except Exception as e:
         return jsonify({"message" : str(e)}), 500
     
@@ -59,12 +53,12 @@ def listar_aeronaves():
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
 
-        cursor.execute("SELECT * FROM aeronaves")
+        cursor.execute("SELECT id_aeronave, modelo, fabricante, horas_voo FROM aeronaves")
         dados = cursor.fetchall()
 
         cursor.close()
         conn.close()
-        return jsonify(dados)
+        return jsonify(dados), 200
     except Exception as e:
         return jsonify({"message" : str(e)}), 500
     
