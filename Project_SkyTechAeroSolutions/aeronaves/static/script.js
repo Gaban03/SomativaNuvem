@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('cadastroForm');
-    const tabelaBody = document.getElementById('tabelaAeronaves');
+    const tabelaBody = document.querySelector('#tabelaAeronaves tbody');
 
-    function atualizarTabela() {
+   function atualizarTabela() {
         fetch('/listar_aeronaves')
             .then(response => response.json())
             .then(aeronaves => {
@@ -19,19 +19,20 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => console.error('Erro ao carregar aeronaves:', error));
     }
 
+    atualizarTabela(); 
+
     form.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        const modelo = document.getElementById('modelo').value;
-        const fabricante = document.getElementById('fabricante').value;
-        const horas_voo = document.getElementById('horas_voo').value;
+        const formData = new FormData(form);
 
         fetch('/cadastrar_aeronave', {
             method: 'POST',
+            body: JSON.stringify(Object.fromEntries(formData)),
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ modelo, fabricante, horas_voo })
+           
         })
         .then(response => response.json())
         .then(data => {
@@ -43,6 +44,4 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .catch(error => console.error('Erro ao cadastrar:', error));
     });
-
-    atualizarTabela(); // carrega os dados ao iniciar
 });
