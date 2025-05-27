@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mecanicos certificações</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Dados</h2>
+        <table id="tableMecanicosCertificacoes">
+            <tr>
+                <thead>
+                    <th>ID Mecanico</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Apto</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </tr>
+        </table>        
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js')}}"></script>
+</body>
+</html>
+
