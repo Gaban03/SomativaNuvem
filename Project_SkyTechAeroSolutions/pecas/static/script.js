@@ -1,58 +1,46 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('formFaturamento');
-    const tabelaBody = document.querySelector('#tabelaConsultas tbody');
-    const resultado = document.getElementById('resultado');
-    const mensagem = document.getElementById('mensagem');
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('cadastroForm');
+    const tabelaBody = document.querySelector('#tabelaPecas tbody');
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        mensagem.textContent = '';
-        tabelaBody.innerHTML = '';
-        resultado.style.display = 'none';
+    function atualizarTabela() {
+        fetch('/listar-pecas')
+            .then(response => response.json())
+            .then(pecas => {
+                tabelaBody.innerHTML = '';
 
-        const cpf = document.getElementById('cpfInput').value.trim();
+                pecas.forEach(peca => {
+                    const row = tabelaBody.insertRow();
+                    row.insertCell(0).textContent = peca[0];
+                    row.insertCell(1).textContent = peca[1];
+                    row.insertCell(2).textContent = peca[2];
+                    row.insertCell(3).textContent = peca[3];
+                });
+            })
+            .catch(error => console.error('Erro ao carregar peças:', error));
+    }
 
-        if (!cpf) {
-            mensagem.textContent = 'Por favor, informe um CPF válido.';
-            return;
-        }
+    atualizarTabela();
 
-        try {
-            const response = await fetch('http://localhost:5004/consultas-paciente', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ cpf })
-            });
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
 
-            if (!response.ok) {
-                const error = await response.json();
-                mensagem.textContent = error.message || 'Erro desconhecido.';
-                return;
+        const formData = new FormData(form);
+
+        fetch('/cadastrar-peca', {
+            method: 'POST',
+            body: JSON.stringify(Object.fromEntries(formData)),
+            headers: {
+                'Content-Type': 'application/json'
             }
-
-            const data = await response.json();
-
-            if (data.consultas.length === 0) {
-                mensagem.textContent = 'Nenhuma consulta encontrada para esse CPF.';
-                return;
-            }
-
-            data.consultas.forEach(consulta => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${consulta.id_consulta}</td>
-                    <td>${consulta.medico}</td>
-                    <td>${consulta.tipo_de_consulta}</td>
-                    <td>R$ ${consulta.preco.toFixed(2)}</td>
-                    <td>${new Date(consulta.data_consulta).toLocaleString('pt-BR')}</td>
-                `;
-                tabelaBody.appendChild(tr);
-            });
-
-            resultado.style.display = 'block';
-
-        } catch (error) {
-            mensagem.textContent = 'Erro ao buscar consultas: ' + error.message;
-        }
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                if (data.message === "Cadastro realizado com sucesso!") {
+                    form.reset();
+                    atualizarTabela();
+                }
+            })
+            .catch(error => console.error('Erro:', error));
     });
 });

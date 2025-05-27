@@ -2,26 +2,27 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Seleciona o formulario
     const form = document.getElementById('cadastroForm');
-    const tabelaBody = document.querySelector('#tableConsults tbody');
+    const tabelaBody = document.querySelector('#tableManutencao tbody');
 
     function atualizarTabela() {
-        fetch('/listar')
+        fetch('/listar-manutencao')
         .then(response => response.json())
-        .then(consultas => {
+        .then(manutencoes => {
          // Limpa a tabela
         tabelaBody.innerHTML = '';
         
-        consultas.forEach(consulta => {
+        manutencoes.forEach(manutencao => {
         const row = tabelaBody.insertRow();
-        row.insertCell(0).textContent = consulta[0];
-        row.insertCell(1).textContent = consulta[1];
-        row.insertCell(2).textContent = consulta[2];
-        row.insertCell(3).textContent = consulta[3];
-        row.insertCell(4).textContent = consulta[4];
-        row.insertCell(5).textContent = consulta[5];
+        row.insertCell(0).textContent = manutencao[0];
+        row.insertCell(1).textContent = manutencao[1];
+        row.insertCell(2).textContent = manutencao[2];
+        row.insertCell(3).textContent = manutencao[3];
+        row.insertCell(4).textContent = manutencao[4];
+        row.insertCell(5).textContent = manutencao[5];
+        row.insertCell(6).textContent = manutencao[6];
          });
         })
-        .catch(error => console.error('Erro ao carregar consultas:', error));
+        .catch(error => console.error('Erro ao carregar manutenções:', error));
     }
         
     atualizarTabela();
@@ -34,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const formData = new FormData(form);
 
         // Envia os dados para o endpoint /cadastrar
-        fetch('/cadastrar', {
+        fetch('/cadastrar-manutencao', {
             method: 'POST',
             body: JSON.stringify(Object.fromEntries(formData)),
             headers: {

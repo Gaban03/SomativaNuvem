@@ -27,7 +27,7 @@ CREATE TABLE manutencao (
     OS VARCHAR(15),
     responsavel VARCHAR(60),
     tipo_de_manutencao VARCHAR(30),
-    data_manutencao DATETIME DEFAULT NOW(),
+    data_manutencao VARCHAR(60),
     FOREIGN KEY (id_aeronave) REFERENCES aeronaves(id_aeronave),
     FOREIGN KEY (id_certificacao) REFERENCES certificacao(id_certificacao)
 );
