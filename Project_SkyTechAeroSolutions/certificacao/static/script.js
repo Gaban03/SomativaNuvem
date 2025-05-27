@@ -5,20 +5,20 @@ document.addEventListener('DOMContentLoaded', function () {
     const tabelaBody = document.querySelector('#tableCertificacoes tbody');
 
     function atualizarTabela() {
-        fetch('/listar')
+        fetch('/listar_certificacoes')
         .then(response => response.json())
-        .then(certificacao => {
+        .then(certificacoes => {
          // Limpa a tabela
         tabelaBody.innerHTML = '';
         
-        certificacao.forEach(certificacao => {
+        certificacoes.forEach(certificacoes => {
         const row = tabelaBody.insertRow();
-        row.insertCell(0).textContent = certificacao[0];
-        row.insertCell(1).textContent = certificacao[1];
-        row.insertCell(2).textContent = certificacao[2];
+        row.insertCell(0).textContent = certificacoes[0];
+        row.insertCell(1).textContent = certificacoes[1];
+        row.insertCell(2).textContent = certificacoes[2]== 1 ? 'Sim' : 'Não';
          });
         })
-        .catch(error => console.error('Erro ao carregar prontuários:', error));
+        .catch(error => console.error('Erro ao carregar certificações:', error));
     }
         
     atualizarTabela();
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const formData = new FormData(form);
 
         // Envia os dados para o endpoint /cadastrar
-        fetch('/cadastrar', {
+        fetch('/cadastrar_certificacoes', {
             method: 'POST',
             body: JSON.stringify(Object.fromEntries(formData)),
             headers: {
@@ -41,9 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             alert(data.message); // Exibe a mensagem de erro ou sucesso
-            if (data.message === "Cadastro realizado com sucesso!"){
-                form.reset(); // Limpas os campos do formulario
-            }
+            form.reset(); // Limpas os campos do formulario
             atualizarTabela();
             })
             .catch(error => {

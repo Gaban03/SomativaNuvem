@@ -15,40 +15,42 @@ db_config = {
 def index():
     return render_template('index.html')
 
-@app.route('/cadastrar', methods=['POST'])
+@app.route('/cadastrar_certificacoes', methods=['POST'])
 def cadastrar():
     data = request.json
-    id_consulta = data['id_consulta']
-    descricao = data['descricao']
+    id_mecanico = data['id_mecanico']
+    apto = int(data['apto'])
+
+    if id_mecanico is None or apto is None:
+        return jsonify({"message": "Faltam dados obrigatórios"}), 400
 
     try:
-
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
 
-        cursor.execute("INSERT INTO prontuario (id_consulta, descricao) VALUES (%s, %s)", (id_consulta, descricao))
+        cursor.execute("INSERT INTO certificacao (id_mecanico, apto) VALUES (%s, %s)", (id_mecanico, apto))
         conn.commit()
 
         cursor.close()
         conn.close()
 
-        return jsonify({"message" : "Cadastro realizado com sucesso"}), 200
+        return jsonify({"message" : "Cadastro de certificação realizado com sucesso"}), 200
     except Exception as e:
         return jsonify({"message" : str(e)}), 500
     
 
-@app.route('/listar', methods=['GET'])
+@app.route('/listar_certificacoes', methods=['GET'])
 def listar():
     try:
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
 
-        cursor.execute("SELECT * FROM prontuario")
-        dados = cursor.fetchall()
+        cursor.execute("SELECT id_certificacao, id_mecanico, apto FROM certificacao")
+        certificacoes = cursor.fetchall()
 
         cursor.close()
         conn.close()
-        return jsonify(dados)
+        return jsonify(certificacoes)
     except Exception as e:
         return jsonify({"message" : str(e)}), 500
     

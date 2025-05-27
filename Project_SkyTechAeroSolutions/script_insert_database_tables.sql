@@ -10,7 +10,7 @@ CREATE TABLE aeronaves (
 CREATE TABLE mecanico (
     id_mecanico INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR (60),
-    cpf VARCHAR (14),
+    cpf VARCHAR (14)
 );
 
 CREATE TABLE certificacao (
@@ -39,7 +39,3 @@ CREATE TABLE pecas (
     quantidade INT,
     FOREIGN KEY (id_manutencao) REFERENCES manutencao(id_manutencao)
 );
-
-INSERT INTO certificacao(id_mecanico, apto) VALUES 
-('1', true),
-('2', false);
